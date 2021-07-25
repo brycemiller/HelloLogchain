@@ -1,45 +1,64 @@
 # HelloBlockchain
-A super basic very first blockchain programming tutorial
+A super basic very first blockchain programming tutorial.
+
+This code deploys a very simple smart contract for saving and viewing a message.  The smart contract is written in Solidity, and will run on the Ethereum network.
+
+You might be wondering what a possible use case could be for such a simple application?  Well, we can use it to store and display a simple operative status - is your application operational? or are systems down?  We can use it to 
+
+But remember, even though this is a very simple smart contract, with just a few adjustments it can become a more sophisticated application, such as a blog, digital wallet, or chat application.
 
 ## Dependencies
-### Node
-node -v
+Before deploying and interacting with the smart contract, the following dependencies must be installed.
+
+### Node & NPM
+NPM is the standard package manager for Node, a popular JavaScript runtime.  We will use NPM to install the Truffle dependency and also to install the application.
+
+We can check if we already have Node installed by running the following command:
+>node -v
+
+If Node is not already installed, then you can download it from the [NodeJS website](https://nodejs.org).
 
 ### Truffle
-npm install -g truffle
+[Truffle](https://www.trufflesuite.com/) provides tools for developing Ethereum smart contracts using Solidity.  The Truffle toolset will help us to compile our smart contract, as well as test and deploy it.  The Truffle console will allow us to interact with our smart contract without building a web interface.
+
+Truffle can be installed using NPM:
+>npm install -g truffle
 
 ### Ganache
+[Ganache](https://www.trufflesuite.com/ganache) provides a blockchain network that runs on your local machine.  You can deploy the smart contract to this network and play around with it safe in the knowledge that it won't be on the _real_ Ethereum network.
+
+Ganache automatically creates ten test users with 100 test Ether each so we can pay for the deployment of the contract and any other transactions.
+
+Simply download and run the Ganache installer, and "Quickstart" an Ethereum network to begin.
+
+### MetaMask
+[MetaMask](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) is a Chrome browser extension that enhances the browser so that it can connect to a blockchain network.
+
+We can use MetaMask to manage our own personal account, as well the test accounts created by Ganache.
 
 ## Setup
-npm install
+To setup the HelloBlockchain application, first we must install the application using NPM.  Run the following command from the HelloBlockchain root folder:
+>npm install
 
-truffle migrate
+Next, we need to compile and deploy the smart contract.  Truffle will handle this for us with the following command:
+>truffle migrate
 
-truffle console
+## Test
+We can now test the smart contract using the Truffle console.  Start the console using the following command:
+>truffle console
 
-hello = await HelloBlockchain.deployed()
->undefined
-hello.getMessage()
->'Hello, Blockchain!'
-hello.setMessage("Hello, Etherium Network!")
->{
-  tx: '0x1eac0006156889f9f6636f053f04a0a36e4f2b292eafb1be299b05fe51595bc9',
-  receipt: {
-    transactionHash: '0x1eac0006156889f9f6636f053f04a0a36e4f2b292eafb1be299b05fe51595bc9',
-    transactionIndex: 0,
-    blockHash: '0x89cf376f09e0da10a7641b01bb741abc4b8597808afa42db0b9c19b2118a3213',
-    blockNumber: 6,
-    from: '0xba9fe153bffcb03686d2f8d95c862e1d24a2ae37',
-    to: '0x55504b5e20aef90801808d6da37539c27a2bfe8e',
-    gasUsed: 29770,
-    cumulativeGasUsed: 29770,
-    contractAddress: null,
-    logs: [],
-    status: true,
-    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    rawLogs: []
-  },
-  logs: []
-}
-hello.getMessage()
->'Hello, Etherium Network!'
+Once you are connected, you should see the following prompt:
+>truffle(development)>
+
+First, get the contract interface:
+>let hello = await HelloBlockchain.deployed()
+
+Now, let's try calling the two functions:
+>hello.getMessage()
+>\>'Hello, Blockchain!'
+
+>hello.setMessage("Hello, Etherium Network!")
+>hello.getMessage()
+>\>'Hello, Etherium Network!'
+
+Our smart contract has successfully been deployed to our local Ethereum blockchain network!
