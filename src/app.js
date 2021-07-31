@@ -63,7 +63,9 @@ App = {
       App.isLoading();
   
       // Render Account
-      $('#account').html(App.account);
+      if (App.account !== undefined) {
+        $('#account > span').html(App.account);
+      }
   
       // Render Message
       await App.renderMessage();
@@ -75,14 +77,21 @@ App = {
     renderMessage: async () => {
       // Load the message from the blockchain
       const message = await App.Hello.getMessage();
-      const $messageArea = $('#content');
+      const $messageArea = $('#message > span');
       $messageArea.html(message);
+
+      if (App.account !== undefined) {
+          $('#form').show();
+      }
     },
 
     setMessage: async () => {
         App.isLoading();
 
-        const message = $('#newMessage').val();
+        const newMessageField = $('#newMessage');
+        const message = newMessageField.val();
+
+        newMessageField.prop('disabled', true);
         await App.Hello.setMessage(message);
         window.location.reload();
     },
