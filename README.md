@@ -3,7 +3,7 @@ A super basic very first blockchain programming tutorial.
 
 This code deploys a very simple smart contract for saving and viewing a message.  The smart contract is written in Solidity, and will run on the Ethereum network.
 
-You might be wondering what a possible use case could be for such a simple application?  Well, we can use it to store and display a simple operative status - is your application operational? or are systems down?  We can use it to 
+You might be wondering what a possible use case could be for such a simple application?  Well, we can use it to store and display a simple operative status - is your application operational? or are systems down?
 
 But remember, even though this is a very simple smart contract, with just a few adjustments it can become a more sophisticated application, such as a blog, digital wallet, or chat application.
 
