@@ -62,3 +62,15 @@ Now, let's try calling the two functions:
 >\>'Hello, Etherium Network!'
 
 Our smart contract has successfully been deployed to our local Ethereum blockchain network!
+
+## Web Interface
+Our application has a basic web interface, which you can access using the following command:
+>npm run dev
+
+This will start lite server, a small server we installed earlier as part of our package.
+
+A page will open in your web-browser, displaying the current logged in account id, the current message, and an input field for entering a new message.
+
+If you are not logged into an account, you must do so in MetaMask in order to see the account id and update the message.
+
+Updating the message costs ~30000 gwei, and MetaMask will ask you to confirm this transaction.  Once the message is updated, the page will re-load and display the new message.
