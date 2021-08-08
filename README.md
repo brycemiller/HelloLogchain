@@ -1,11 +1,22 @@
-# HelloBlockchain
-A super basic very first blockchain programming tutorial.
+# HelloLogchain
+A super basic very first blockchain programming tutorial, using the ethereum log.
 
 This code deploys a very simple smart contract for saving and viewing a message.  The smart contract is written in Solidity, and will run on the Ethereum network.
 
-You might be wondering what a possible use case could be for such a simple application?  Well, we can use it to store and display a simple operative status - is your application operational? or are systems down?
+How does this differ from the HelloBlockchain application?  The primary difference is where we store the message data.  In the HelloBlockchain application, we store the data on the blockchain itself.  With this application, we store the data in an event.  Events are emitted from a contract to signal that something has happened.  In our case, we signal that the message has been changed.  These events are stored in the event log, and so any data that we put into the event is also stored in the event log.  This data can be accessed by subscribing to a particular event type and reading previous and future events, as they are emitted.
 
-But remember, even though this is a very simple smart contract, with just a few adjustments it can become a more sophisticated application, such as a blog, digital wallet, or chat application.
+The advantage of using the event log to store our data over the blockchain, is that it is significantly cheaper:
+| Type | Msg             | Price    |   |   |
+|------|-----------------|----------|---|---|
+| Log  | A               | 0.00049  |   |   |
+| Log  | Lorem ipsum     | 0.000718 |   |   |
+| Log  | Lorem ipsum X 2 | 0.000956 |   |   |
+| Tx   | A               | 0.000618 |   |   |
+| Tx   | Lorem ipsum     | 0.006335 |   |   |
+| Tx   | Lorem ipsum X 2 | 0.006807 |   |   |
+As can be seen, using a transaction can cost 7-9 times as much as using the event log.
+
+Is it best practice to use the event log for storing data?  Probably not.  The event log is for logging and emitting events; it is not meant as data storage.  As such, the space on the event log is limitted, with a cap on the number of variables we can store per event.  The best place to store data is probably off-chain storage, with only hashes and signatures being stored in the blockchain.  This is cheap, and allows us to verify that the off-chain data has not be tampered with.  For the purpose of learning to subscribe to events and read the data from an event, we'll just ignore these problems for now!
 
 ## Dependencies
 Before deploying and interacting with the smart contract, the following dependencies must be installed.
@@ -37,31 +48,11 @@ Simply download and run the Ganache installer, and "Quickstart" an Ethereum netw
 We can use MetaMask to manage our own personal account, as well the test accounts created by Ganache.
 
 ## Setup
-To setup the HelloBlockchain application, first we must install the application using NPM.  Run the following command from the HelloBlockchain root folder:
+To setup the HelloLogchain application, first we must install the application using NPM.  Run the following command from the HelloLogchain root folder:
 >npm install
 
 Next, we need to compile and deploy the smart contract.  Truffle will handle this for us with the following command:
 >truffle migrate
-
-## Test
-We can now test the smart contract using the Truffle console.  Start the console using the following command:
->truffle console
-
-Once you are connected, you should see the following prompt:
->truffle(development)>
-
-First, get the contract interface:
->let hello = await HelloBlockchain.deployed()
-
-Now, let's try calling the two functions:
->hello.getMessage()
->\>'Hello, Blockchain!'
-
->hello.setMessage("Hello, Etherium Network!")
->hello.getMessage()
->\>'Hello, Etherium Network!'
-
-Our smart contract has successfully been deployed to our local Ethereum blockchain network!
 
 ## Web Interface
 Our application has a basic web interface, which you can access using the following command:

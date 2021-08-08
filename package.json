@@ -1,7 +1,7 @@
 {
-  "name": "hello-blockchain",
+  "name": "hello-logchain",
   "version": "1.0.0",
-  "description": "A super basic very first blockchain programming tutorial",
+  "description": "A super basic very first blockchain programming tutorial, using the ethereum log",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
@@ -19,10 +19,10 @@
     "chai-bignumber": "^2.0.2",
     "lite-server": "^2.3.0",
     "nodemon": "^1.17.3",
-    "truffle": "5.0.2",
-    "truffle-contract": "3.0.6"
+    "truffle": "^5.4.5",
+    "truffle-contract": "^4.0.31"
   },
   "dependencies": {
-    "web3": "0.20.6"
+    "web3": "^1.5.1"
   }
 }

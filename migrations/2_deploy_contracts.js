@@ -1,6 +1,6 @@
-let initMessage = "Hello, Blockchain!";
-let HelloBlockchain = artifacts.require("../HelloBlockchain.sol");
+let initMessage = "Hello, Logchain!";
+let HelloLogchain = artifacts.require("../HelloLogchain.sol");
 
 module.exports = (deployer) => {
-    deployer.deploy(HelloBlockchain, initMessage);
+    deployer.deploy(HelloLogchain, initMessage);
 };

@@ -1,19 +1,15 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.6;
 
-contract HelloBlockchain {
+contract HelloLogchain {
 
-    string message;
+    event MessageChanged(string message);
 
     constructor(string memory initMessage) {
         setMessage(initMessage);
     }
 
     function setMessage(string memory newMessage) public {
-        message = newMessage;
-    }
-
-    function getMessage() public view returns (string memory) {
-        return message;
+        emit MessageChanged(newMessage);
     }
 }

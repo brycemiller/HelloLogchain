@@ -1,11 +1,16 @@
 App = {
+    initMessage: "",
     loading: false,
     contracts: {},
+
+    messageArea: $('#message > span'),
+    newMessageField: $('#newMessage'),
   
     load: async () => {
       await App.loadWeb3();
       await App.loadAccount();
       await App.loadContract();
+      await App.subscribeToEvents();
       await App.render();
     },
   
@@ -39,20 +44,40 @@ App = {
   
     loadAccount: async () => {
       // Set the current blockchain account
-      web3.eth.defaultAccount = web3.eth.accounts[0]
-      App.account = web3.eth.accounts[0];
+      web3.eth.getAccounts()
+        .then(data => {
+          App.account = web3.eth.defaultAccount = data[0];
+        }
+      );
     },
   
     loadContract: async () => {
       // Create a JavaScript version of the smart contract
-      const hello = await $.getJSON('HelloBlockchain.json');
+      const hello = await $.getJSON('HelloLogchain.json');
       App.contracts.Hello = TruffleContract(hello);
       App.contracts.Hello.setProvider(App.web3Provider);
   
       // Hydrate the smart contract with values from the blockchain
       App.Hello = await App.contracts.Hello.deployed();
     },
-  
+
+    subscribeToEvents: async () => {
+      let options = {
+        fromBlock: 0,//'latest',
+        address: App.Hello.address,
+        topics: [],
+      };
+
+      const logSubscription = web3.eth.subscribe('logs', options);
+      logSubscription.on(
+        'data',
+        event => {
+          const decoded = web3.eth.abi.decodeParameters(['string'], event.data);
+          App.renderMessage(decoded[0]);
+        }
+      );
+    },
+
     render: async () => {
       // Prevent double render
       if (App.loading) {
@@ -68,17 +93,16 @@ App = {
       }
   
       // Render Message
-      await App.renderMessage();
+      App.renderMessage(App.initMessage);
   
       // Update loading state
       App.isLoading(false);
     },
   
-    renderMessage: async () => {
-      // Load the message from the blockchain
-      const message = await App.Hello.getMessage();
-      const $messageArea = $('#message > span');
-      $messageArea.html(message);
+    renderMessage: (message) => {
+      App.messageArea.html(message);
+
+      App.enableNewMessageField();
 
       if (App.account !== undefined) {
           $('#form').show();
@@ -88,13 +112,18 @@ App = {
     setMessage: async () => {
         App.isLoading();
 
-        const newMessageField = $('#newMessage');
-        const message = newMessageField.val();
+        App.disableNewMessageField();
 
-        newMessageField.prop('disabled', true);
-        await App.Hello.setMessage(message);
-        window.location.reload();
+        const newMessage = App.newMessageField.val();
+        await App.Hello.setMessage(
+          newMessage,  { from:  web3.eth.defaultAccount });
+
+        App.clearMessageField();
     },
+
+    clearMessageField: () => App.newMessageField.val(""),
+    enableNewMessageField: () => App.newMessageField.prop('disabled', false),
+    disableNewMessageField: () => App.newMessageField.prop('disabled', true),
   
     isLoading: (value) => {
       value = value | true;
