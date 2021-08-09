@@ -6,14 +6,15 @@ This code deploys a very simple smart contract for saving and viewing a message.
 How does this differ from the HelloBlockchain application?  The primary difference is where we store the message data.  In the HelloBlockchain application, we store the data on the blockchain itself.  With this application, we store the data in an event.  Events are emitted from a contract to signal that something has happened.  In our case, we signal that the message has been changed.  These events are stored in the event log, and so any data that we put into the event is also stored in the event log.  This data can be accessed by subscribing to a particular event type and reading previous and future events, as they are emitted.
 
 The advantage of using the event log to store our data over the blockchain, is that it is significantly cheaper:
-| Type | Msg             | Price    |   |   |
-|------|-----------------|----------|---|---|
-| Log  | A               | 0.00049  |   |   |
-| Log  | Lorem ipsum     | 0.000718 |   |   |
-| Log  | Lorem ipsum X 2 | 0.000956 |   |   |
-| Tx   | A               | 0.000618 |   |   |
-| Tx   | Lorem ipsum     | 0.006335 |   |   |
-| Tx   | Lorem ipsum X 2 | 0.006807 |   |   |
+| Type | Msg             | Price    |
+|------|-----------------|----------|
+| Log  | A               | 0.00049  |
+| Log  | Lorem ipsum     | 0.000718 |
+| Log  | Lorem ipsum X 2 | 0.000956 |
+| Tx   | A               | 0.000618 |
+| Tx   | Lorem ipsum     | 0.006335 |
+| Tx   | Lorem ipsum X 2 | 0.006807 |
+
 As can be seen, using a transaction can cost 7-9 times as much as using the event log.
 
 Is it best practice to use the event log for storing data?  Probably not.  The event log is for logging and emitting events; it is not meant as data storage.  As such, the space on the event log is limitted, with a cap on the number of variables we can store per event.  The best place to store data is probably off-chain storage, with only hashes and signatures being stored in the blockchain.  This is cheap, and allows us to verify that the off-chain data has not be tampered with.  For the purpose of learning to subscribe to events and read the data from an event, we'll just ignore these problems for now!
